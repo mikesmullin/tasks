@@ -1,0 +1,6 @@
+db/pgdata/
+db/.lock
+db/.sock
+db/.tasksweb.lock
+db/.viz.lock
+db/viz/

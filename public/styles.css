@@ -1,0 +1,2495 @@
+:root {
+  /*
+   * Vivacious dark theme
+   * Palette: Kaaskop Pink #CC0C39 · Orange Sakura #E6781E · spring wind #C8CF02
+   *          Polpa di Pera #F8FCC1 · blue lagoon #1693A7
+   */
+  --palette-crimson: #cc0c39;
+  --palette-orange: #e6781e;
+  --palette-lime: #c8cf02;
+  --palette-cream: #f8fcc1;
+  --palette-teal: #1693a7;
+
+  /*
+   * Tints of the five hues, tuned for TEXT on a dark surface.
+   * The raw palette is mixed for large flat swatches — at 16px body size the
+   * crimson and teal fall under 4.5:1 on charcoal, so text/icons use the -300
+   * and -400 steps and the raw hues stay for fills, rules and accent bars.
+   */
+  --crimson-300: #ff8098;
+  --crimson-400: #f04a63;
+  --orange-300: #f7ab6d;
+  --orange-400: #f08f3c;
+  --lime-300: #e3e968;
+  --lime-400: #d3da22;
+  --teal-300: #74d8e8;
+  --teal-400: #35b6ca;
+  --cream-200: #fbfddb;
+
+  /*
+   * ── Ink ramp ────────────────────────────────────────────────────────────
+   * WARM-neutral charcoal (R ≥ B by ~2–3 points), not blue-slate.
+   * Four of the five palette hues are warm; a cool #0e1016 slate fought them,
+   * which is why the previous theme had to flatten every surface to one value
+   * to stop the mid-grays reading brown. A neutral-warm ramp removes that
+   * conflict, so surfaces can differ again and the UI regains depth.
+   */
+  --ink-1000: #0a0a09;
+  --ink-950: #0d0d0c;
+  --ink-900: #131312;
+  --ink-850: #1a1a18;
+  --ink-800: #212120;
+  --ink-750: #2a2a27;
+  --ink-700: #33332f;
+  --ink-600: #45453f;
+
+  /*
+   * ── Surface hierarchy ───────────────────────────────────────────────────
+   * Depth is carried by four steps, not by borders alone:
+   *   page (darkest) < pane < chrome < elevated,  with inputs RECESSED.
+   */
+  --bg: var(--ink-950);            /* app page */
+  --bg-deep: var(--ink-1000);
+  --bg-pane: var(--ink-900);       /* content panes sit above the page */
+  --bg-topbar: var(--ink-850);     /* chrome reads as "above" content */
+  --bg-sidebar: var(--ink-850);
+  --bg-elevated: var(--ink-800);   /* modals, popovers, menus */
+  --bg-hover: var(--ink-800);
+  --bg-active: color-mix(in srgb, var(--palette-teal) 16%, var(--ink-850));
+  --bg-input: var(--ink-1000);     /* editors recessed BELOW their pane */
+  --bg-chip: var(--ink-750);
+  --border: #2b2b27;
+  --border-subtle: #1f1f1c;
+  --border-strong: #3d3d37;
+  --border-accent: color-mix(in srgb, var(--palette-teal) 42%, var(--ink-800));
+
+  /*
+   * Text — warm off-white, tuned to the ink ramp (was blue-tinted #e6eaf2).
+   * Cream is NOT used for body copy: at #f8fcc1 it is a saturated yellow-green
+   * and turns paragraphs sickly. It stays a highlight/brand accent only.
+   * Contrast on --bg-pane: text 14.8:1 · soft 8.6:1 · muted 5.3:1 (all ≥ AA).
+   */
+  --text: #edeae0;
+  --text-soft: #b6b2a6;
+  --muted: #8b877b;
+
+  /*
+   * ── Semantic roles ──────────────────────────────────────────────────────
+   * One hue per meaning, so colour carries information rather than decoration:
+   *   teal    → interactive (links, focus, selection, active nav)
+   *   lime    → success / clean / done
+   *   orange  → in-progress / warning
+   *   crimson → danger / failed / overdue
+   *   cream   → brand + emphasis, used sparingly so it stays special
+   */
+  --accent: var(--palette-teal);
+  --accent-hover: var(--teal-400);
+  --accent-fg: var(--teal-300);
+  --accent-soft: color-mix(in srgb, var(--palette-teal) 16%, transparent);
+  --accent-soft-strong: color-mix(in srgb, var(--palette-teal) 30%, transparent);
+  --accent-2: var(--lime-400);
+  --accent-2-soft: color-mix(in srgb, var(--palette-lime) 14%, transparent);
+  --warn: var(--orange-400);
+  --warn-soft: color-mix(in srgb, var(--palette-orange) 16%, transparent);
+  --danger: var(--crimson-400);
+  --danger-soft: color-mix(in srgb, var(--palette-crimson) 18%, transparent);
+  --highlight: var(--palette-cream);
+  --primary-btn-bg: color-mix(in srgb, var(--palette-teal) 82%, black);
+  --primary-btn-border: var(--palette-teal);
+  --primary-btn-fg: #f2fdff;
+
+  /* Priority A–D — the palette's own hot→cool run, ending in plain grey */
+  --pri-a: var(--crimson-400);
+  --pri-b: var(--orange-400);
+  --pri-c: var(--teal-300);
+  --pri-d: var(--muted);
+
+  /* Focus ring — one definition, used everywhere (was inconsistent/absent) */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--teal-400);
+
+  /*
+   * Syntax token colors — intentionally left on the prior readable scheme
+   * (user: do not restyle highlighter font colors with the UI theme).
+   */
+  --tk-priority: #d2a8ff;
+  --tk-checkbox: #ffd580;
+  --tk-mention: #79c0ff;
+  --tk-tag: #7ee787;
+  --tk-title: #ffa657;
+  --tk-key: #a5d6ff;
+  --tk-value: #c9d1d9;
+  --tk-date: #ffa198;
+  --tk-ref: #79c0ff;
+  --tk-id: #8b949e;
+  --tk-punct: #6e7681;
+
+
+  /*
+   * ── Typefaces ───────────────────────────────────────────────────────────
+   * Three roles, three faces — chosen from stacks that resolve on Windows,
+   * macOS and Linux without a webfont download (the app stays offline-capable,
+   * and there is no flash of unstyled text).
+   *
+   * NOTE: the previous theme asked for "IBM Plex Sans"/"IBM Plex Mono", but
+   * neither was ever loaded — no @font-face, no <link>. Every rule silently
+   * fell through to the next stack entry, so the named face was fiction.
+   * These stacks name only faces that actually ship with an OS.
+   *
+   *   SANS  → all UI chrome: nav, buttons, rows, labels, forms.
+   *           Should disappear; optimised for small sizes and density.
+   *   SERIF → long-form prose ONLY (rendered markdown, summaries).
+   *           Signals "this is content, not chrome", and reads better over
+   *           multiple sentences. Georgia leads: screen-designed, large
+   *           x-height, present on Win + macOS; Noto/Liberation/DejaVu cover
+   *           Linux.
+   *   MONO  → anything machine-shaped: YAML, shorthand, slugs, ids, counts.
+   *           Alignment is load-bearing there, and tabular figures matter.
+   */
+  --font-sans:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --font-serif:
+    Georgia, "Iowan Old Style", Charter, "Bitstream Charter",
+    "Noto Serif", "Liberation Serif", "DejaVu Serif", serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas,
+    "Cascadia Mono", "Liberation Mono", "DejaVu Sans Mono",
+    "Noto Sans Mono", monospace;
+
+  /*
+   * ── Type scale ──────────────────────────────────────────────────────────
+   * The 12pt (=16px) floor is kept: nothing renders smaller than --fs-base.
+   * The old scale was flat *because* of that floor — --fs-min, --fs-sm and
+   * --fs-base were all 1rem, so "secondary" text was the same size as body
+   * and the UI had no hierarchy at all.
+   *
+   * Fix: stop asking size to do the work. Everything at/below the floor is
+   * separated by WEIGHT, COLOUR, CASE and LETTER-SPACING instead (see
+   * .pane-header, .meta, .muted), and the scale only steps *upward* — with
+   * gaps big enough to actually see (1.06 → 1.19 → 1.375 → 1.625).
+   */
+  --fs-min: 1rem;        /* 12pt floor — never go below this */
+  --fs-sm: 1rem;         /* meta/labels: same size, differentiated by colour */
+  --fs-base: 1rem;       /* body / default UI */
+  --fs-md: 1.0625rem;    /* 17px — nav, tree rows, buttons */
+  --fs-lg: 1.1875rem;    /* 19px — inputs, prominent rows */
+  --fs-xl: 1.375rem;     /* 22px — brand, section titles */
+  --fs-2xl: 1.625rem;    /* 26px — page / entity headings */
+  --fs-mono: 1rem;
+  --fs-mono-md: 1.0625rem;
+
+  /*
+   * ── Leading ─────────────────────────────────────────────────────────────
+   * There was NO line-height on body — text inherited `normal` (~1.2), which
+   * is far too tight for 16px UI copy. These five steps cover every case.
+   */
+  --lh-tight: 1.25;      /* headings, single-line rows */
+  --lh-snug: 1.4;        /* dense UI: rows, nav, chips */
+  --lh-ui: 1.5;          /* default body/UI */
+  --lh-code: 1.6;        /* mono editors — 1.45 was cramped for scanning YAML */
+  --lh-prose: 1.7;       /* serif long-form */
+
+  /*
+   * ── Spacing ─────────────────────────────────────────────────────────────
+   * The old sheet used 15+ ad-hoc values (0.2/0.25/0.28/0.3/0.35/0.4/0.45/
+   * 0.5/0.55/0.65/0.75/0.85/1/1.1/1.15rem) with no relationship between
+   * them — that irregularity is what reads as "uneven spacing". This is a
+   * 4px grid; every padding/gap below snaps to it.
+   */
+  --sp-1: 0.25rem;   /* 4px  */
+  --sp-2: 0.5rem;    /* 8px  */
+  --sp-3: 0.75rem;   /* 12px */
+  --sp-4: 1rem;      /* 16px */
+  --sp-5: 1.5rem;    /* 24px */
+  --sp-6: 2rem;      /* 32px */
+  --sp-half: 0.125rem;
+  --sp-15: 0.375rem; /* 6px — only for icon gaps inside a control */
+
+  /* ── Radii + elevation ── */
+  --r-xs: 3px;
+  --r-sm: 5px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-pill: 999px;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-3: 0 20px 56px rgba(0, 0, 0, 0.6);
+
+  font-family: var(--font-sans);
+}
+
+* { box-sizing: border-box; }
+html {
+  font-size: 12pt; /* 1rem = 12pt = 16px — floor for the type scale */
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  /* Stop iOS/Safari inflating text in the rotated panes */
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  height: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  /* Was unset → inherited `normal` (~1.2). Every block of UI copy was cramped. */
+  line-height: var(--lh-ui);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Proportional-width digits look ragged in counts/dates; lock them tabular */
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * One visible focus ring for the whole app. Several controls set
+ * `outline: none` with nothing in its place — keyboard users lost the caret
+ * position entirely. :focus-visible keeps it off for mouse clicks.
+ */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--r-xs);
+}
+#app { height: 100%; }
+
+.app { display: flex; flex-direction: column; height: 100%; }
+
+/*
+ * Global net activity — always reserves 2px at the top (no layout jitter).
+ * Idle: same fill as the topbar. Active: animated gradient sweep.
+ */
+.net-activity {
+  flex: 0 0 2px;
+  height: 2px;
+  min-height: 2px;
+  width: 100%;
+  pointer-events: none;
+  z-index: 100;
+  /* Idle matches top nav chrome so the strip is invisible but occupies space */
+  background-color: var(--bg-topbar);
+  background-image: none;
+  box-shadow: none;
+}
+.net-activity.is-active {
+  /* border-top feel: solid 2px band, animated multi-stop gradient */
+  background-color: transparent;
+  background-image: linear-gradient(
+    90deg,
+    var(--palette-teal) 0%,
+    var(--palette-orange) 35%,
+    var(--palette-lime) 65%,
+    var(--palette-teal) 100%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--palette-teal) 45%, transparent);
+  animation: net-activity-sweep 1.15s linear infinite;
+}
+@keyframes net-activity-sweep {
+  0% { background-position: 100% 0; }
+  100% { background-position: -120% 0; }
+}
+
+/*
+ * App chrome (topbar) — route-independent. Locked colors so WorkUnits /
+ * Schema / Seed never change brand or nav (Phosphor paints via ::before).
+ */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  /* Solid opaque — no bleed from page content under the bar */
+  background-color: var(--bg-topbar);
+  color: var(--text);
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 50;
+  isolation: isolate;
+  /*
+   * No palette strip here.
+   *
+   * An earlier revision painted the five hues as a 2px band across the bottom
+   * edge. It read as decoration competing with the content, and a full-width
+   * saturated rule is the loudest thing you can put at the top of a screen.
+   * The `border-bottom` above already separates the bar using the same
+   * --border as every other divider in the app, so the edge stays legible
+   * without shouting. The palette still does its work where it carries
+   * meaning: brand mark, active nav, status colours, priority letters,
+   * relation arrows.
+   */
+  box-shadow: none;
+}
+.topbar .brand {
+  font-size: var(--fs-xl);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-15);
+  font-weight: 700;
+  /* Tight tracking on a large weight; the old +0.04em made it look spaced-out */
+  letter-spacing: -0.01em;
+  color: var(--highlight);
+  cursor: pointer;
+  flex-shrink: 0;
+  line-height: var(--lh-tight);
+}
+.topbar .brand .brand-label {
+  color: var(--highlight) !important;
+  opacity: 1 !important;
+}
+/*
+ * Brand mark is an inline SVG (not Phosphor) so page/icon-font rules
+ * cannot dim it when switching routes. Same paint on every route.
+ */
+.topbar .brand .brand-icon,
+.app .topbar .brand .brand-icon,
+.app[data-route] .topbar .brand .brand-icon,
+.app[data-route="/seed"] .topbar .brand .brand-icon,
+.app[data-route="/"] .topbar .brand .brand-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.15em;
+  height: 1.15em;
+  color: #7ec8d4 !important; /* fixed bright teal */
+  fill: none;
+  opacity: 1 !important;
+  vertical-align: -0.15em;
+}
+.topbar .brand .brand-icon ellipse,
+.topbar .brand .brand-icon path {
+  stroke: #7ec8d4 !important;
+  fill: none !important;
+  opacity: 1 !important;
+}
+.topbar .nav {
+  display: flex;
+  gap: var(--sp-1);
+  flex-shrink: 0;
+  margin-left: var(--sp-2);
+}
+.topbar .nav a,
+.topbar .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-15);
+  color: var(--muted);
+  text-decoration: none;
+  padding: var(--sp-15) var(--sp-3);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+  font-weight: 550;
+  line-height: var(--lh-snug);
+  opacity: 1;
+  transition: color 0.12s ease, background 0.12s ease;
+}
+.topbar .nav-link .ph-bold {
+  color: var(--muted);
+  opacity: 1;
+  font-size: 1.05em;
+}
+.topbar .nav-link:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.topbar .nav-link:hover .ph-bold {
+  color: var(--accent);
+  opacity: 1;
+}
+.topbar .nav-link.active {
+  color: var(--text);
+  background: var(--bg-active);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.topbar .nav-link.active .ph-bold {
+  color: var(--accent);
+  opacity: 1;
+}
+/*
+ * Brain server liveness LED (square tile, like viz status chrome).
+ * Color is the signal; full detail is on native title tooltip.
+ */
+.topbar .brain-status {
+  flex: 0 0 auto;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 2px;
+  margin-left: 0;
+  margin-right: 0.45rem;
+  background: var(--muted);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--border-strong) 60%, transparent);
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.topbar .brain-status.is-ok {
+  /* True green (not palette lime/yellow) — healthy / connected */
+  --brain-ok: #34c759;
+  background: var(--brain-ok);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--brain-ok) 40%, transparent),
+    0 0 8px color-mix(in srgb, var(--brain-ok) 50%, transparent);
+}
+.topbar .brain-status.is-down {
+  background: var(--danger);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--danger) 40%, transparent),
+    0 0 8px color-mix(in srgb, var(--danger) 40%, transparent);
+}
+.topbar .brain-status.is-unknown {
+  background: var(--muted);
+  opacity: 0.85;
+}
+
+.topbar .status {
+  /* Status line: UI sans + soft gray (not mono) — consistent with chrome labels */
+  color: var(--text-soft);
+  font-size: var(--fs-sm);
+  font-family: var(--font-sans);
+  font-weight: 450;
+  letter-spacing: 0.01em;
+  flex: 1 1 8rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 1;
+}
+.topbar .status .debounce-cooldown-label {
+  color: var(--text-soft);
+  font-family: var(--font-sans);
+  font-weight: 450;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+/* Digits in the donut stay tabular mono for readability */
+.topbar .status .debounce-countdown-num {
+  font-family: var(--font-mono);
+}
+.topbar .error {
+  color: var(--danger);
+  font-size: var(--fs-md);
+  max-width: 28%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 1;
+}
+.topbar .git-control {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.topbar .git-status.clean { border-color: var(--accent-2); color: var(--accent-2); }
+.topbar .git-status.dirty { border-color: var(--warn); color: var(--warn); }
+.topbar .git-status.nogit { opacity: 0.6; }
+.topbar .btn .ph-bold {
+  color: inherit;
+  opacity: 1;
+  font-size: 1.05em;
+}
+
+/* Back-compat aliases (same tokens; prefer .topbar … above) */
+.brand {
+  font-size: var(--fs-xl);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--highlight);
+  cursor: pointer;
+}
+.brand .ph-bold { color: var(--accent); opacity: 1; }
+.nav { display: flex; gap: 0.25rem; }
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.nav-link {
+  color: var(--muted);
+  text-decoration: none;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: 6px;
+  font-size: var(--fs-md);
+}
+.nav-link:hover { background: var(--bg-hover); color: var(--text); }
+.nav-link.active { color: var(--text); background: var(--bg-active); }
+.status {
+  color: var(--text-soft);
+  font-size: var(--fs-md);
+  font-family: var(--font-sans);
+  flex: 1;
+  min-width: 8rem;
+}
+.error { color: var(--danger); font-size: var(--fs-md); max-width: 28%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.actions { display: flex; gap: 0.4rem; }
+.git-control { display: flex; gap: 0.35rem; align-items: center; margin-left: auto; }
+.git-status.clean { border-color: var(--accent-2); color: var(--accent-2); }
+.git-status.dirty { border-color: var(--warn); color: var(--warn); }
+.git-status.nogit { opacity: 0.6; }
+
+/* Route pages share one surface language (same bg / border tokens) */
+.page { flex: 1; min-height: 0; display: flex; flex-direction: column; background: var(--bg); color: var(--text); }
+.page-tasks,
+.page-browse,
+.page-seed {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  /* Isolate layout/paint so x-show tab switches don't thrash the topbar */
+  contain: layout style;
+}
+.page-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  flex: 0 0 auto;
+}
+/* Schema-style Save: small + float right on WorkUnits / Seed toolbars */
+.page-toolbar-save {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* modal */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center; z-index: 2000;
+}
+.modal {
+  background: var(--bg-elevated); border: 1px solid var(--border-strong); border-radius: var(--r-lg);
+  padding: var(--sp-5); width: min(480px, 92vw); max-height: 80vh; overflow: auto;
+  box-shadow: var(--shadow-3);
+}
+.modal label {
+  display: block; margin: var(--sp-4) 0 var(--sp-1);
+  font-size: var(--fs-sm); font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--muted);
+}
+.modal input[type=text] {
+  width: 100%; padding: var(--sp-2) var(--sp-3); border-radius: var(--r-sm);
+  border: 1px solid var(--border-strong); background: var(--bg-input); color: var(--text);
+  font-family: var(--font-sans); font-size: var(--fs-base); line-height: var(--lh-snug);
+}
+.modal input[type=text]:focus { outline: none; border-color: var(--accent); box-shadow: var(--focus-ring); }
+.modal-actions { display: flex; justify-content: flex-end; gap: var(--sp-2); margin-top: var(--sp-5); }
+.file-list { font-family: var(--font-mono); font-size: var(--fs-sm); max-height: 10rem; overflow: auto; color: var(--muted); }
+.git-summary { font-size: var(--fs-md); line-height: var(--lh-code); }
+
+/* schema browser — fill page height; entity cols expand */
+.page-browse {
+  flex-direction: row;
+  min-height: 0;
+  overflow: hidden;
+}
+.schema-tree {
+  width: 260px; border-right: 1px solid var(--border); overflow: auto;
+  background: var(--bg-sidebar); flex-shrink: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.schema-tree-header {
+  flex: 0 0 auto;
+}
+.schema-tree-header .pane-header-title {
+  flex: 1;
+  min-width: 0;
+}
+.schema-tree-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.schema-tree-actions .icon-btn {
+  padding: 0.2rem 0.35rem;
+  min-width: 1.75rem;
+  color: var(--muted);
+}
+.schema-tree-actions .icon-btn:hover {
+  color: var(--accent-fg);
+  background: var(--bg-hover);
+}
+.schema-tree-actions .icon-btn .ph-bold {
+  font-size: 1.05em;
+}
+.schema-tree > .class-tree {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  /* Empty space below the last node is part of this list — click deselects */
+  cursor: default;
+}
+.class-tree, .entity-tree { list-style: none; margin: 0; padding: 0; }
+/*
+ * Scannable list rows use SNUG leading, not the 1.5 body default. At a 16px
+ * floor, 1.5 leading + generous padding pushed rows to ~40px and the tree
+ * stopped reading as a list. Snug + 6px padding lands each row on ~34px —
+ * still comfortable, but tight enough to scan a column of names.
+ */
+.class-row {
+  display: flex; gap: var(--sp-15); align-items: center;
+  padding: var(--sp-15) var(--sp-3); cursor: pointer;
+  font-size: var(--fs-sm); line-height: var(--lh-snug);
+}
+.class-row:hover, .entity-node:hover { background: var(--bg-hover); }
+.class-node.active > .class-row, .entity-node.active { background: var(--bg-active); box-shadow: inset 2px 0 0 var(--accent); }
+.class-row .count {
+  /* Immediately after the label — not floated to the row edge */
+  margin-left: 0.35rem;
+  flex-shrink: 0;
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+  color: var(--accent-fg);
+  opacity: 0.95;
+}
+.entity-tree { padding-left: 1.1rem; }
+.entity-node {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-15);
+  padding: var(--sp-1) var(--sp-3);
+  cursor: pointer;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+  color: var(--text-soft);
+  overflow: hidden;
+  white-space: nowrap;
+}
+/*
+ * Icon vocabulary (applied app-wide, so a glyph always means one thing):
+ *   blueprint      → Class      (an ontology class / T-box definition)
+ *   diamonds-four  → Component  (a reusable field-bag a class composes)
+ *   cube           → Entity     (an instance of a class)
+ * Class sits one level "above" its instances, so it reads muted until
+ * selected, letting the brighter entity cubes carry the eye down the tree.
+ */
+.class-row .cls-icon {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-size: 1em;
+}
+.class-node.active > .class-row .cls-icon { color: var(--accent-fg); }
+.class-row:hover .cls-icon { color: var(--text-soft); }
+
+.entity-node .ph-bold.ph-cube,
+.entity-node .entity-link-icon {
+  flex-shrink: 0;
+  color: var(--accent);
+  opacity: 0.9;
+  font-size: 1em;
+}
+.entity-node-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.entity-node.active .ph-bold.ph-cube {
+  color: var(--accent-fg);
+  opacity: 1;
+}
+.browse-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0.75rem 1rem;
+}
+.class-def {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.entity-detail {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.class-def h2,
+.class-def h3,
+.entity-head h2 {
+  margin: 0 0 0.35rem;
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.class-def h2,
+.entity-head h2 {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+}
+.class-def h3 {
+  margin-top: 1rem;
+  font-size: var(--fs-lg);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.class-def h2 .ph-bold,
+.class-def h3 .ph-bold {
+  color: var(--accent);
+  opacity: 0.9;
+}
+.badge {
+  font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 0.06em;
+  background: var(--accent-soft); color: var(--accent-fg);
+  border: 1px solid var(--border-accent);
+  padding: var(--sp-half) var(--sp-2); border-radius: var(--r-xs); font-weight: 600; line-height: var(--lh-snug);
+}
+.meta { color: var(--muted); font-size: var(--fs-sm); line-height: var(--lh-snug); margin: var(--sp-1) 0; }
+/* ══════════════════════════════════════════════════════════════════════════
+ * CLASS DEFINITION VIEW  (Schema → pick a class)
+ *
+ * Was a raw nested <ul> dump: one colour for every token, disc bullets, and
+ * field comments squeezed into a column at the right edge. Rebuilt around
+ * three ideas —
+ *   1. colour encodes KIND (alias vs component vs field vs type vs flag),
+ *   2. an icon per field type answers "what shape is this value?" pre-reading,
+ *   3. prose (comments) sits under its field in serif, not beside it.
+ * Spacing is on the 4px grid throughout, with generous section separation.
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+.class-def {
+  padding-bottom: var(--sp-6);
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.cdef-head {
+  padding-bottom: var(--sp-3);
+  margin-bottom: var(--sp-5);
+  border-bottom: 1px solid var(--border);
+}
+.cdef-title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: 0 0 var(--sp-2);
+  font-size: var(--fs-2xl);
+  font-weight: 680;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.cdef-title .ph-bold { color: var(--accent-fg); font-size: 0.9em; }
+/* Facts read as one quiet row of metadata, not three stacked paragraphs */
+.cdef-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-4);
+}
+.cdef-fact {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-15);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+  color: var(--muted);
+}
+.cdef-fact .ph-bold {
+  color: var(--muted);
+  font-size: 0.95em;
+  align-self: center;
+}
+.cdef-fact-k {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-size: 0.85em;
+}
+.cdef-fact-v { color: var(--text-soft); font-weight: 600; }
+code.cdef-fact-v {
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+/* ── Section scaffolding ────────────────────────────────────────────── */
+.cdef-section { margin-bottom: var(--sp-6); }
+.cdef-section:last-child { margin-bottom: 0; }
+.cdef-h {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: 0 0 var(--sp-3);
+  font-size: var(--fs-sm);
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.cdef-h .ph-bold { color: var(--accent-fg); font-size: 1.15em; opacity: 1; }
+.cdef-h-count {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--text-soft);
+  background: var(--bg-chip);
+  border-radius: var(--r-pill);
+  padding: 0 var(--sp-15);
+}
+.cdef-empty {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px dashed var(--border);
+  border-radius: var(--r-md);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+/* ── Component card ─────────────────────────────────────────────────── */
+.comp-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-pane);
+  margin-bottom: var(--sp-3);
+  overflow: hidden;
+}
+.comp-card:last-child { margin-bottom: 0; }
+.comp-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-15);
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--bg-topbar);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: -0.01em;
+}
+.comp-card-head .ph-bold {
+  color: var(--accent-fg);
+  align-self: center;
+  margin-right: var(--sp-half);
+}
+/* alias vs component TYPE are different things — colour says so */
+.comp-alias { color: var(--text); font-weight: 650; }
+.comp-sep { color: var(--muted); }
+.comp-type { color: var(--lime-300); font-weight: 600; }
+.comp-fieldcount {
+  margin-left: auto;
+  font-family: var(--font-sans);
+  font-size: 0.95em;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ── Field rows ─────────────────────────────────────────────────────── */
+.field-grid {
+  list-style: none;
+  margin: 0;
+  padding: var(--sp-2) var(--sp-4) var(--sp-3);
+}
+.field-row {
+  display: grid;
+  grid-template-columns: 1.25rem auto auto 1fr;
+  grid-template-areas:
+    "icon name type flags"
+    ".    enum enum enum"
+    ".    note note note";
+  align-items: baseline;
+  column-gap: var(--sp-2);
+  row-gap: var(--sp-1);
+  padding: var(--sp-15) 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.01em;
+}
+.field-row + .field-row { border-top: 1px solid var(--border-subtle); }
+.field-icon {
+  grid-area: icon;
+  color: var(--muted);
+  font-size: 1.05em;
+  align-self: center;
+}
+.field-name { grid-area: name; color: var(--text); font-weight: 600; }
+.field-type { grid-area: type; color: var(--teal-300); }
+.field-flags {
+  grid-area: flags;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  align-items: baseline;
+}
+/* Type-family colours: scalars teal, refs orange (they point elsewhere),
+   json/enum lime (they carry structure) */
+.field-row[data-type="ref"] .field-type { color: var(--orange-300); }
+.field-row[data-type="ref"] .field-icon { color: var(--orange-400); }
+.field-row[data-type="json"] .field-type,
+.field-row[data-type="enum"] .field-type { color: var(--lime-300); }
+.field-row[data-type="date"] .field-type { color: var(--crimson-300); }
+
+.flag {
+  font-family: var(--font-sans);
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 650;
+  line-height: 1.6;
+  padding: 0 var(--sp-1);
+  border-radius: var(--r-xs);
+  white-space: nowrap;
+}
+.flag.is-req { color: var(--crimson-300); background: var(--danger-soft); }
+.flag.is-list { color: var(--muted); background: var(--bg-chip); }
+.flag.is-target {
+  font-family: var(--font-mono);
+  text-transform: none;
+  letter-spacing: -0.01em;
+  color: var(--orange-300);
+  background: var(--warn-soft);
+}
+.field-enum {
+  grid-area: enum;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+}
+.enum-val {
+  font-size: 0.9em;
+  color: var(--lime-300);
+  background: var(--accent-2-soft);
+  border-radius: var(--r-xs);
+  padding: 0 var(--sp-1);
+}
+/*
+ * Field comment: prose ABOUT the field, so it reads underneath in the serif
+ * used everywhere else for prose — never squeezed into a right-hand column,
+ * which is where it was and why it looked like an afterthought.
+ */
+.field-note {
+  grid-area: note;
+  margin: var(--sp-half) 0 var(--sp-1);
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-prose);
+  letter-spacing: normal;
+  color: var(--muted);
+  max-width: 68ch;
+}
+.field-grid-label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-15);
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-sm);
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.field-grid-label .ph-bold { color: var(--muted); }
+.field-grid.is-qualifiers {
+  padding: var(--sp-2) 0 0;
+  margin-top: var(--sp-2);
+  border-top: 1px dashed var(--border);
+}
+
+/* ── Relation definitions ───────────────────────────────────────────── */
+.rel-defs { list-style: none; margin: 0; padding: 0; }
+.rel-def {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-pane);
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-2);
+}
+.rel-def:last-child { margin-bottom: 0; }
+.rel-def-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+.rel-def-name {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+/*
+ * The circle is a COUNT of edges that actually exist — the same meaning the
+ * counter carries in every other relation tree. (It previously held the
+ * cardinality code, which is a schema fact, not a quantity, and read as a
+ * badge of "mtm things".)
+ */
+.rel-def-count {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 var(--sp-1);
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--accent-fg);
+  background: var(--accent-soft);
+  border: 1px solid var(--border-accent);
+}
+.rel-def-count.is-zero {
+  color: var(--muted);
+  background: transparent;
+  border-color: var(--border);
+}
+.rel-def-count.is-pending { color: var(--muted); background: transparent; border-style: dashed; }
+.rel-def-dir { color: var(--accent-fg); font-size: 1em; }
+.rel-def[data-dir="in"] .rel-def-dir { color: var(--orange-300); }
+.rel-def[data-dir="both"] .rel-def-dir { color: var(--muted); }
+
+/* Signature line: Domain → Range · cardinality */
+.rel-def-sig {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding-left: calc(1em + var(--sp-2));
+}
+/*
+ * Endpoints are CLASS NAMES in a signature — not entity links. They used to
+ * be styled as pills, which made them look clickable and interchangeable with
+ * the entity chips elsewhere. Plain type-set text now; only the class you are
+ * viewing is highlighted, which is what makes the direction legible.
+ */
+.rel-endpoint {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: -0.01em;
+  color: var(--muted);
+}
+.rel-endpoint.is-self {
+  color: var(--text);
+  font-weight: 650;
+  border-bottom: 1px solid var(--border-strong);
+}
+i.ph-bold.rel-sig-arrow {
+  color: var(--muted);
+  font-size: 1em;
+  vertical-align: -0.15em;
+}
+/* Cardinality, spelled out — metadata voice (uppercase + tracking), not a badge */
+.rel-card {
+  margin-left: auto;
+  font-size: var(--fs-sm);
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 650;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.entity-head {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  flex: 0 0 auto;
+}
+.entity-head .slug {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.entity-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+.btn.danger {
+  background: var(--danger-soft);
+  border-color: color-mix(in srgb, var(--danger) 55%, var(--border));
+  color: #ffb4c0;
+}
+.btn.danger:hover {
+  background: color-mix(in srgb, var(--danger) 28%, var(--bg-pane));
+  border-color: var(--danger);
+  color: #fff;
+}
+.modal.modal-danger h3 {
+  color: #ffb4c0;
+}
+.modal.modal-danger h3 .ph-bold {
+  color: var(--danger);
+}
+/* Two columns fill remaining viewport under the entity header */
+.entity-cols {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+.entity-yaml,
+.entity-graph {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  height: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-pane);
+}
+.entity-yaml .yaml-editor,
+.entity-yaml-editor {
+  flex: 1 1 auto;
+  min-height: 0;
+  /* Leave room for V · Validation under the editor */
+  max-height: none;
+}
+/* ── Relation tree (shared: Schema entity, Seed C, class T-box) ───────────
+ * Nested list tree:
+ *   - □ entity                (branch or leaf)
+ *     - → OWNS (1)            (edge branch: caret + dir + rel + count)
+ *       - □ target            (entity leaf)
+ *     - ← REPORTS_TO (2)
+ *       - □ source
+ */
+.insp-rel-body,
+.entity-rel-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.35rem 0.45rem 0.55rem;
+}
+.entity-comp-header {
+  flex: 0 0 auto;
+}
+
+.rel-tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* Nested levels indent under the parent twisty column */
+.rel-tree .rel-tree {
+  padding-left: 1.15rem;
+  margin: 0.05rem 0 0.15rem;
+  border-left: 1px solid var(--border-subtle);
+  margin-left: 0.45rem;
+}
+.rel-tree-node {
+  margin: 0;
+  padding: 0;
+}
+.rel-tree-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 1.55rem;
+  padding: 0.12rem 0.2rem;
+  border-radius: 4px;
+}
+.rel-tree-node.is-branch > .rel-tree-row:hover {
+  background: var(--bg-hover);
+}
+.rel-tree-twisty {
+  flex-shrink: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  border-radius: 3px;
+}
+button.rel-tree-twisty:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.rel-tree-node.open > .rel-tree-row > .rel-tree-twisty {
+  color: var(--accent);
+}
+/* Leaf: static bullet (not collapsible); aligns with caret column */
+.rel-tree-twisty.is-bullet,
+.rel-tree-twisty.is-placeholder {
+  cursor: default;
+  pointer-events: none;
+  color: var(--muted);
+  opacity: 0.9;
+}
+.rel-tree-twisty.is-bullet::before,
+.rel-tree-twisty.is-placeholder::before {
+  content: '•';
+  font-size: 0.95em;
+  line-height: 1;
+  font-weight: 700;
+}
+.rel-tree-dir {
+  flex-shrink: 0;
+  color: var(--accent-fg);
+  font-size: 1em;
+  line-height: 1;
+  opacity: 1;
+}
+.rel-tree-dir.ph-arrows-left-right {
+  color: var(--muted);
+}
+.rel-tree-rel {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-soft);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Count badge — circle (or pill if multi-char, e.g. schema cardinality) */
+.rel-tree-count {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.28rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--accent-fg);
+  background: var(--accent-soft);
+  border: 1px solid var(--border-accent);
+}
+.rel-tree-node.open > .rel-tree-row > .rel-tree-count {
+  color: var(--accent-fg);
+  background: var(--accent-soft-strong);
+}
+.rel-tree-empty {
+  font-size: var(--fs-sm);
+  font-style: italic;
+}
+.rel-tree-entity {
+  /* sit naturally in the tree row */
+  max-width: min(100%, 22em);
+}
+.rel-tree-node.fail > .rel-tree-row .entity-pill-label {
+  color: var(--danger);
+}
+
+/*
+ * Removed with the class-definition rebuild: .schema-rel-tree,
+ * .schema-rel-endpoint, .schema-rel-arrow, .comp-list, .field-list,
+ * .rel-list and .field-comment. Nothing emits those classes any more —
+ * the view now uses .rel-defs / .rel-endpoint / .rel-sig-arrow /
+ * .comp-card / .field-grid / .field-note. Notably .schema-rel-endpoint was
+ * the pill styling on relation endpoints, which is exactly what made schema
+ * class names look like clickable entity chips.
+ */
+
+/* Shared entity pills (relation targets, seed list, wiki chips) */
+a.entity-pill,
+.insp-rel-pill {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.3em;
+  max-width: 100%;
+  /* Entity names are data, not prose — mono, and one notch down so a pill
+     never out-weighs the sentence it sits in */
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--accent-fg) !important;
+  background: var(--accent-soft) !important;
+  border: 1px solid var(--accent-soft-strong);
+  border-radius: var(--r-pill) !important;
+  padding: 0.05rem var(--sp-2) 0.05rem var(--sp-15) !important;
+  text-decoration: none !important;
+  line-height: var(--lh-snug);
+  vertical-align: baseline;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+a.entity-pill:hover,
+.insp-rel-pill:hover {
+  background: var(--accent-soft-strong) !important;
+  border-color: var(--border-accent);
+}
+a.entity-pill .entity-link-icon,
+.insp-rel-pill .entity-link-icon,
+a.entity-pill .ph-bold,
+.insp-rel-pill .ph-bold {
+  font-size: 1em;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+a.entity-pill .entity-pill-label,
+.insp-rel-pill .entity-pill-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 14em;
+}
+/* Seed C: proposed entities as the root of the shared rel-tree */
+.seed-entity-tree {
+  padding: 0 0.9rem 0.5rem;
+  margin: 0;
+}
+.seed-entity-tree > .rel-tree-node {
+  margin-bottom: 0.2rem;
+}
+/* Trash: only on row hover, after the entity pill */
+.seed-entity-trash {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  padding: 0;
+  margin: 0 0 0 0.15rem;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease, color 0.12s ease, background 0.12s ease;
+  font: inherit;
+}
+.seed-entity-trash .ph-bold {
+  font-size: 0.95em;
+  line-height: 1;
+}
+.rel-tree-row:hover > .seed-entity-trash,
+.rel-tree-row:focus-within > .seed-entity-trash {
+  opacity: 1;
+  pointer-events: auto;
+}
+.seed-entity-trash:hover {
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.comp-json {
+  margin: 0;
+  padding: 0.55rem;
+  font-size: var(--fs-sm);
+  overflow: auto;
+  flex: 0 1 auto;
+  max-height: 30%;
+  min-height: 0;
+  color: var(--muted);
+  background: var(--bg-input);
+  white-space: pre;
+}
+.muted { color: var(--muted); }
+.pad { padding: 1rem; }
+
+/* seed page — three resizable rows (A description / B YAML / C summary) */
+.page-seed {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  /* Never dim or recolor chrome; seed is a sibling of .topbar, not a parent */
+  filter: none;
+  opacity: 1;
+  color: var(--text);
+  background: var(--bg);
+}
+.seed-toolbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+.seed-toolbar .page-toolbar-save {
+  margin-left: auto;
+}
+.seed-error-inline {
+  font-size: var(--fs-md);
+  max-width: 40rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Sticky post-save banner (A/B/C cleared; pills remain until refresh) */
+.seed-saved-bar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding: var(--sp-2) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  background: var(--accent-2-soft);
+  border-left: 3px solid var(--accent-2);
+}
+.seed-saved-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  font-size: var(--fs-md);
+  color: var(--accent-2);
+  letter-spacing: 0.02em;
+}
+.seed-saved-label .ph-bold {
+  font-size: 1.1em;
+}
+.seed-saved-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  min-width: 0;
+}
+.seed-saved-fail {
+  font-size: var(--fs-sm);
+  margin-left: auto;
+}
+.seed-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.seed-pane {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.seed-locked-bar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-sidebar);
+}
+.seed-locked-slug {
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  color: var(--accent-fg);
+  background: var(--accent-soft);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+}
+/* B · YAML + V · Validation side-by-side (Seed & WorkUnits)
+ * Column fr set via store.bvSplitStyle() — gutter is a .split-v between cols. */
+.bv-split {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  /* Fallback before style binds; runtime uses bvSplitStyle() */
+  grid-template-columns: minmax(8rem, 1.4fr) 5px minmax(6rem, 0.85fr);
+  gap: 0;
+}
+.bv-col {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.bv-col-yaml {
+  /* gutter provides the visual divider */
+  border-right: none;
+}
+.bv-col-v {
+  background: var(--bg-sidebar);
+}
+.bv-gutter {
+  /* Full-height col-resize inside the B|V grid row */
+  align-self: stretch;
+  height: auto;
+  min-height: 100%;
+}
+.validation-pane {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  overflow: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-code);
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--muted);
+  background: var(--bg-input);
+}
+/* Success green (lime accent reads yellow at text size — use a true green) */
+.validation-pane.validation-ok {
+  color: #6ee7a0;
+}
+.validation-pane.validation-fail {
+  color: var(--danger);
+}
+.entity-validation-block {
+  flex: 0 0 auto;
+  max-height: 40%;
+  min-height: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+  overflow: hidden;
+}
+.entity-validation-header {
+  flex: 0 0 auto;
+}
+.entity-validation-pane {
+  flex: 1 1 auto;
+  max-height: 12rem;
+}
+.wu-selection-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0;
+  min-width: 0;
+}
+.wu-selected-id {
+  font-family: var(--font-mono);
+}
+/* Full-height list so blank-area click can deselect */
+.task-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+.seed-yaml {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  overflow: auto; /* both axes — no word wrap */
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  line-height: var(--lh-code);
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+  color: var(--text-soft);
+  background: var(--bg-input);
+}
+/* C · single scroll surface (summary + proposed entities + their relations) */
+.seed-c-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+.seed-summary {
+  flex: 0 0 auto;
+  overflow: visible;
+  padding: var(--sp-3) var(--sp-4);
+  min-height: 0;
+}
+.seed-entities-block {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--border);
+  padding: var(--sp-2) 0 var(--sp-3);
+}
+.seed-c-subhead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+  margin: 0 0.9rem 0.45rem;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--text-soft);
+  letter-spacing: 0.01em;
+}
+.seed-c-subhead .ph-bold {
+  color: var(--accent);
+  opacity: 0.95;
+}
+.seed-c-subhead .muted {
+  font-weight: 500;
+  font-size: var(--fs-sm);
+}
+/*
+ * ── Prose: the one place a SERIF earns its keep ──────────────────────────
+ * Rendered markdown is the only multi-sentence reading surface in the app.
+ * Setting it in serif does two things at once: it reads more comfortably at
+ * length, and it visually separates *content* from the sans-serif chrome
+ * around it, so you can tell at a glance what is data and what is UI.
+ * Measure is capped at ~68ch — full-width lines at 16px are hard to track.
+ */
+.md-prose,
+.wiki-prose,
+.seed-summary .md-prose {
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  line-height: var(--lh-prose);
+  color: var(--text-soft);
+  max-width: 68ch;
+  font-variant-numeric: normal; /* oldstyle-friendly; tabular is for data */
+}
+.md-prose p { margin: 0 0 var(--sp-3); line-height: var(--lh-prose); }
+.md-prose > :first-child { margin-top: 0; }
+.md-prose > :last-child { margin-bottom: 0; }
+.md-prose ul,
+.md-prose ol { margin: 0 0 var(--sp-3); padding-left: 1.35em; }
+.md-prose li { margin-bottom: var(--sp-1); }
+.md-prose h1,
+.md-prose h2,
+.md-prose h3 {
+  /* Headings stay SANS — they act as labels, not as reading matter */
+  font-family: var(--font-sans);
+  font-weight: 650;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.005em;
+  color: var(--text);
+  margin: var(--sp-4) 0 var(--sp-2);
+}
+.md-prose h1 { font-size: var(--fs-xl); }
+.md-prose h2 { font-size: var(--fs-lg); }
+.md-prose h3 { font-size: var(--fs-md); }
+.md-prose strong { color: var(--text); font-weight: 650; }
+.md-prose a { color: var(--accent-fg); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.md-prose blockquote {
+  margin: 0 0 var(--sp-3);
+  padding-left: var(--sp-3);
+  border-left: 2px solid var(--border-strong);
+  color: var(--muted);
+  font-style: italic;
+}
+.md-prose code {
+  /* Code inside prose returns to mono, one step down so it doesn't tower
+     over the serif x-height */
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--bg-chip);
+  color: var(--text);
+  padding: 0.1em 0.35em;
+  border-radius: var(--r-xs);
+}
+.spin.inline {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  margin-right: 0.35em;
+  vertical-align: -0.1em;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: tasks-spin 0.7s linear infinite;
+}
+/* Seed A · Description — same contenteditable composer as WorkUnits pane A */
+.page-seed .seed-composer.composer {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+.wiki-prose { line-height: var(--lh-prose); margin: 0; }
+
+@media (max-width: 900px) {
+  .entity-cols {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(12rem, 1fr) minmax(12rem, 1fr);
+  }
+  .page-browse { flex-direction: column; }
+  .schema-tree {
+    width: 100%;
+    max-height: 40vh;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .browse-main { min-height: 0; }
+}
+
+/* Phosphor bold icons (CDN: @phosphor-icons/web bold weight) */
+.ph-bold,
+i.ph-bold {
+  font-style: normal;
+  speak: never;
+  line-height: 1;
+  vertical-align: -0.125em;
+  /* Default: full opacity; page widgets may dim, chrome overrides above */
+  opacity: 1;
+}
+.btn .ph-bold {
+  font-size: 1.05em;
+}
+/* Do not let generic nav/brand rules fight .topbar chrome */
+.nav .ph-bold,
+.brand .ph-bold {
+  font-size: 1.05em;
+}
+.entity-head h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+}
+.entity-head h2 .ph-bold {
+  color: var(--accent);
+}
+.modal h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+}
+.modal h3 .ph-bold {
+  color: var(--accent);
+}
+.muted.pad .ph-bold {
+  margin-right: 0.35rem;
+  color: var(--accent);
+  opacity: 0.85;
+}
+.btn {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 550;
+  line-height: var(--lh-snug);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-15);
+  background: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  /* 6px/12px — vertical rhythm matches the 4px grid, and the 1:2 ratio of
+     vertical:horizontal padding is what makes a button look "settled" */
+  padding: var(--sp-15) var(--sp-3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.btn:hover { background: var(--ink-750); border-color: var(--border-strong); }
+.btn:active { background: var(--ink-800); }
+.btn.primary {
+  background: var(--primary-btn-bg);
+  border-color: var(--primary-btn-border);
+  color: var(--primary-btn-fg);
+}
+.btn.primary:hover { background: var(--accent); border-color: var(--accent-hover); color: #fff; }
+.btn.small { padding: var(--sp-1) var(--sp-2); }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.btn:disabled:hover { background: var(--bg-elevated); border-color: var(--border); }
+
+.layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 260px 5px minmax(0, 1fr);
+  min-height: 0;
+  background: var(--bg); /* flat slate under WorkUnits panes (match Seed) */
+}
+
+.pane-c {
+  display: flex; flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  background: var(--bg-sidebar);
+  border-right: none;
+}
+
+/*
+ * WorkUnits surfaces.
+ * Previously every one of these was forced to --bg to stop mid-grays reading
+ * brown against the cool slate. With a warm-neutral ramp that clash is gone,
+ * so the three-step hierarchy is restored: page < pane < header, editor sunk.
+ */
+.page-tasks .pane {
+  background: var(--bg-pane);
+}
+.page-tasks .pane-header {
+  background: var(--bg-topbar);
+  color: var(--muted);
+  border-bottom-color: var(--border);
+}
+.page-tasks .main {
+  background: var(--bg);
+  min-width: 0;
+  min-height: 0;
+}
+.page-tasks .page-toolbar {
+  background: var(--bg-topbar);
+  border-bottom-color: var(--border);
+}
+.page-tasks .split {
+  background: var(--border);
+}
+.page-tasks .composer,
+.page-tasks pre.shorthand {
+  background: var(--bg-input);
+  color: var(--text);
+}
+
+/* Resize gutters */
+.split {
+  background: var(--border);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+.split:hover,
+.split:active {
+  background: var(--accent);
+}
+.split-v {
+  cursor: col-resize;
+  width: 5px;
+  min-width: 5px;
+}
+.split-h {
+  cursor: row-resize;
+  height: 5px;
+  min-height: 5px;
+}
+/* Wider hit target without stealing layout */
+.split-v::after {
+  content: '';
+  position: absolute;
+  inset: 0 -3px;
+}
+.split-h::after {
+  content: '';
+  position: absolute;
+  inset: -3px 0;
+}
+body.resizing-col,
+body.resizing-col * {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+body.resizing-row,
+body.resizing-row * {
+  cursor: row-resize !important;
+  user-select: none !important;
+}
+/*
+ * Pane headers cannot get smaller (12pt floor), so hierarchy is carried by
+ * case + tracking + weight + colour. Wide tracking on uppercase is what makes
+ * a same-size label read as "secondary" rather than as body text.
+ */
+.pane-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  background: var(--bg-topbar);
+  border-bottom: 1px solid var(--border);
+  flex: 0 0 auto;
+}
+.pane-header-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-15);
+  font-weight: 650;
+  color: var(--text-soft);
+}
+.pane-header-title .ph-bold {
+  font-size: 1.1em;
+  color: var(--accent-fg);
+  opacity: 1;
+}
+.task-list {
+  list-style: none; margin: 0; padding: 0;
+  overflow: auto; flex: 1;
+}
+/*
+ * Task row — TWO lines, not four columns.
+ * Four equal-billing columns in a 260px rail left the summary ~90px wide, so
+ * every title truncated to "Rebu…". Since nothing can shrink below the 16px
+ * floor, the fix is layout, not size: give the title the full width and drop
+ * status/due to a muted second line. Same DOM, re-placed with grid areas.
+ */
+.task-row {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr auto;
+  grid-template-areas:
+    "pri sum sum"
+    "pri st  due";
+  column-gap: var(--sp-2);
+  row-gap: 1px;
+  align-items: baseline;
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+}
+.task-row:hover { background: var(--bg-hover); }
+.task-row.selected { background: var(--bg-active); box-shadow: inset 2px 0 0 var(--accent); }
+/* Priority letter is a data glyph — mono keeps the column dead straight */
+.task-row .pri {
+  grid-area: pri;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--pri-d);
+}
+.task-row .pri-a { color: var(--pri-a); }
+.task-row .pri-b { color: var(--pri-b); }
+.task-row .pri-c { color: var(--pri-c); }
+.task-row .pri-d { color: var(--pri-d); }
+.task-row .sum {
+  grid-area: sum;
+  color: var(--text);
+  /* The title is the row's subject — it must out-weigh its own metadata */
+  font-weight: 550;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.task-row.selected .sum { color: var(--highlight); }
+/* Status + due are metadata: same size (floor), demoted by colour + tracking */
+.task-row .st {
+  grid-area: st;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  /* 500, not 600: uppercase + a saturated hue already reads heavy, and at
+     600 the status was out-shouting the title it belongs to */
+  font-weight: 500;
+  opacity: 0.92;
+}
+.task-row .st-running { color: var(--warn); }
+.task-row .st-success { color: var(--accent-2); }
+.task-row .st-fail { color: var(--danger); }
+.task-row .due {
+  grid-area: due;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+  justify-self: end;
+}
+
+.main {
+  display: grid;
+  grid-template-rows: minmax(80px, 1.1fr) 5px minmax(60px, 1fr) 5px minmax(80px, 1.2fr);
+  min-height: 0;
+  min-width: 0;
+}
+
+/* A · English + optional Q · Clarifying side-by-side */
+.pane-a-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+  border-bottom: none;
+}
+.pane-a-row.with-questions {
+  grid-template-columns: 1fr minmax(220px, 0.85fr);
+}
+.pane-a-row > .pane { border-bottom: none; min-height: 0; overflow: hidden; }
+.pane-a-row > .pane-q { border-left: 1px solid var(--border); }
+
+.pane-q {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-sidebar);
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+}
+.pane-q > .pane-header {
+  flex: 0 0 auto;
+}
+.clarify-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0.65rem 0.75rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: block; /* block so items stack and list can scroll */
+}
+.clarify-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.65rem;
+  flex-shrink: 0;
+}
+.clarify-item:last-child {
+  margin-bottom: 0;
+}
+.clarify-q {
+  display: flex;
+  gap: 0.4rem;
+  align-items: flex-start;
+  font-size: var(--fs-md);
+  line-height: var(--lh-snug);
+  color: var(--text);
+}
+.clarify-id {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--bg-active);
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+}
+.clarify-text { flex: 1; min-width: 0; }
+.clarify-a {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-md);
+}
+.clarify-a:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+.muted.small { font-size: var(--fs-sm); font-weight: 400; text-transform: none; letter-spacing: 0; display: inline-flex; align-items: center; gap: 0.35rem; }
+
+/* loading spinner */
+.spin {
+  display: inline-block;
+  width: 0.7rem; height: 0.7rem;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: tasks-spin 0.7s linear infinite;
+  vertical-align: -0.1em;
+  margin-right: 0.35rem;
+}
+.spin.inline { margin-right: 0.25rem; }
+@keyframes tasks-spin { to { transform: rotate(360deg); } }
+
+/*
+ * Section A NL debounce — donut cooldown ring (thick outer arc, open center)
+ * with seconds centered + "cooldown" label (top nav). Visible until LLM enqueued.
+ */
+.debounce-cooldown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+}
+.debounce-cooldown-label {
+  font-size: var(--fs-sm);
+  font-weight: 550;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--muted);
+  user-select: none;
+  white-space: nowrap;
+}
+.debounce-countdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1.4rem;
+  height: 1.4rem;
+  vertical-align: middle;
+}
+/* Thick ring only — hole punched via mask so middle stays open */
+.debounce-countdown-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  /* fallback full remaining ring; 0deg = 12 o'clock (north) */
+  background: conic-gradient(
+    from 0deg,
+    color-mix(in srgb, var(--ink-600) 85%, transparent) 0 0%,
+    var(--accent) 0
+  );
+  /* donut: transparent core, opaque outer band (~2.5px stroke feel) */
+  -webkit-mask-image: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 3px),
+    #000 calc(100% - 2.5px)
+  );
+  mask-image: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 3px),
+    #000 calc(100% - 2.5px)
+  );
+  pointer-events: none;
+}
+.debounce-countdown-num {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--text);
+  pointer-events: none;
+  user-select: none;
+}
+.pane-header .debounce-countdown {
+  margin-left: 0.15rem;
+  margin-right: 0.35rem;
+}
+.topbar .status .debounce-cooldown {
+  margin-right: 0.45rem;
+}
+
+.status { display: flex; align-items: center; gap: 0.25rem; }
+
+@media (max-width: 900px) {
+  .pane-a-row.with-questions { grid-template-columns: 1fr; }
+  .pane-a-row > .pane-q { border-left: 0; border-top: 1px solid var(--border); }
+}
+
+.pane {
+  display: flex; flex-direction: column;
+  min-height: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-pane); /* one step above the page */
+  color: var(--text);
+}
+.pane:last-child { border-bottom: none; }
+
+.composer {
+  flex: 1;
+  overflow: auto;
+  padding: var(--sp-3) var(--sp-4);
+  outline: none;
+  line-height: var(--lh-ui);
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 4rem;
+  color: var(--text);
+  caret-color: var(--text);
+  background: var(--bg-input); /* recessed editor, cool slate */
+}
+/*
+ * Placeholder is a CSS pseudo-element only (not DOM text).
+ * data-empty is toggled by mentions.js; when empty, keep the host truly empty
+ * so the caret sits at the start, not "after" the placeholder line.
+ */
+.composer.mention-editor[data-empty="1"]:before {
+  content: attr(data-placeholder);
+  color: var(--muted);
+  pointer-events: none;
+  font-weight: 400;
+  /* Don't affect layout/caret as a full-width block */
+  display: inline;
+  white-space: pre-wrap;
+}
+
+/* @-mention entity chips inside pane A (same idea as brain viz search) */
+.composer.mention-editor a.entity-pill,
+.composer.mention-editor a.md-entity,
+.composer.mention-editor a.entity-link[data-entity] {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25em;
+  max-width: 100%;
+  vertical-align: baseline;
+  margin: 0 1px;
+  padding: 0 5px 0 3px;
+  border-radius: 4px;
+  border: 1px solid var(--border-accent);
+  background: var(--accent-soft);
+  color: var(--accent-fg);
+  font-size: 1em;
+  font-family: var(--font-mono);
+  line-height: var(--lh-snug);
+  text-decoration: none;
+  cursor: pointer; /* navigate to Schema entity on click */
+  user-select: none;
+  -webkit-user-select: none;
+}
+.composer.mention-editor a.entity-pill:hover,
+.composer.mention-editor a.md-entity:hover,
+.composer.mention-editor a.entity-link[data-entity]:hover {
+  background: var(--accent-soft-strong);
+  text-decoration: none;
+}
+.composer.mention-editor a.entity-pill .entity-pill-label,
+.composer.mention-editor a.md-entity .entity-pill-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 18rem;
+}
+.composer.mention-editor a.entity-pill .entity-link-icon,
+.composer.mention-editor a.md-entity .entity-link-icon {
+  font-size: 1em;
+  opacity: 0.85;
+}
+
+/*
+ * Dual-layer YAML editor (same pattern as m-js-docs lab editor):
+ * transparent textarea over a highlighted <pre>. Both must share every metric
+ * or the caret drifts — same font, padding, wrapping, letter-spacing.
+ * The <pre> is overflow:hidden (NOT a second scroller); only the textarea
+ * scrolls, and we copy scrollTop/scrollLeft onto the pre.
+ * Highlight HTML is painted imperatively (not via m.js x-html) so a reactive
+ * redraw cannot reset the pre's scroll while the caret stays put.
+ */
+.yaml-editor {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--bg-input);
+}
+.yaml-editor .yaml-hl,
+.yaml-editor .yaml-input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  border: 0;
+  padding: var(--sp-3) var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono); /* ≥12pt mono */
+  line-height: var(--lh-code);
+  /* MUST stay identical on both layers or the caret drifts off the glyphs */
+  letter-spacing: -0.01em;
+  font-variant-ligatures: none;
+  tab-size: 2;
+  /* Word wrap OFF — long lines scroll horizontally */
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+  /* (letter-spacing is set once above — do NOT re-declare it here; a second
+     value silently won and desynced the two layers' metrics) */
+  box-sizing: border-box;
+  outline: none;
+}
+/* Highlight layer: not a scroll container — follows textarea via scrollTop/Left */
+.yaml-editor .yaml-hl {
+  overflow: hidden;
+  pointer-events: none;
+  color: var(--tk-value);
+  background: var(--bg-input);
+  z-index: 0;
+}
+/* Textarea is the only scroll source (x + y) */
+.yaml-editor .yaml-input {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  resize: none;
+  color: transparent;
+  caret-color: var(--text);
+  background: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.yaml-editor .yaml-input::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+.yaml-editor .yaml-input::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+.yaml-editor .yaml-input::selection {
+  background: var(--accent-soft-strong);
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* YAML token colors */
+.yk-key { color: #7ee787; }
+.yk-rel { color: #d2a8ff; font-weight: 600; }
+.yk-punct { color: #6e7681; }
+.yk-string { color: #a5d6ff; }
+.yk-number { color: #ffa657; }
+.yk-bool { color: #ff7b72; }
+.yk-null { color: #ff7b72; }
+.yk-date { color: #79c0ff; }
+.yk-ref { color: #ffa198; }
+.yk-value { color: #c9d1d9; }
+.yk-comment { color: #8b949e; font-style: italic; }
+.yk-doc { color: #6e7681; font-weight: 600; }
+
+/* Fallback plain yaml textarea (if any remain outside .yaml-editor) */
+textarea.yaml:not(.yaml-input) {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  resize: none;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-input);
+  color: var(--tk-value);
+  caret-color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  line-height: var(--lh-code);
+  outline: none;
+  white-space: pre;
+  overflow: auto;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+pre.shorthand {
+  flex: 1;
+  margin: 0;
+  overflow: auto;
+  padding: var(--sp-3) var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  line-height: var(--lh-code);
+  /* Mono at 16px runs wide; -0.01em pulls the colour back without
+     breaking the grid, since every glyph shifts identically */
+  letter-spacing: -0.01em;
+  white-space: pre-wrap;
+  color: var(--text);
+  background: var(--bg-input);
+  font-variant-ligatures: none; /* no `->` ligatures in task shorthand */
+}
+
+.tk-priority { color: var(--tk-priority); font-weight: 700; }
+.tk-checkbox { color: var(--tk-checkbox); }
+.tk-mention { color: var(--tk-mention); background: var(--bg-chip); border-radius: 4px; padding: 0 0.2em; }
+.tk-tag { color: var(--tk-tag); }
+.tk-title { color: var(--tk-title); font-weight: 600; }
+.tk-key { color: var(--tk-key); }
+.tk-value { color: var(--tk-value); }
+.tk-date { color: var(--tk-date); }
+.tk-ref { color: var(--tk-ref); background: var(--bg-chip); border-radius: 4px; padding: 0 0.2em; }
+.tk-id { color: var(--tk-id); }
+.tk-punct { color: var(--tk-punct); }
+
+/* mention typeahead dropdown (mentions.js — fixed near caret) */
+.mention-menu {
+  position: fixed;
+  z-index: 10050;
+  background: color-mix(in srgb, var(--bg-elevated) 96%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+  max-height: 280px;
+  overflow-y: auto;
+  min-width: 240px;
+  padding: 4px;
+  color: var(--text);
+  font-size: var(--fs-md);
+  backdrop-filter: blur(12px);
+}
+.mention-menu .mention-item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  padding: 0.45rem 0.6rem;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.mention-menu .mention-item.is-active,
+.mention-menu .mention-item:hover {
+  background: var(--accent-soft);
+}
+.mention-menu .mention-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.mention-menu .mention-item-label {
+  font-weight: 600;
+  color: var(--text);
+}
+.mention-menu .mention-item-slug {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-family: var(--font-mono);
+}
+.mention-menu .mention-empty {
+  padding: 0.6rem 0.75rem;
+  color: var(--muted);
+  font-size: var(--fs-md);
+}
+.entity-link {
+  display: inline-block;
+  background: var(--bg-chip);
+  border: 1px solid var(--border-accent);
+  border-radius: 4px;
+  padding: 0 0.3em;
+  color: var(--accent);
+  text-decoration: none;
+}

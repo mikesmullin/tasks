@@ -1,0 +1,21 @@
+{
+  "name": "tasks",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Task-shaped front-end for brain — WorkUnit CLI + four-pane data-entry UI",
+  "bin": {
+    "tasks": "./bin/tasks.mjs"
+  },
+  "scripts": {
+    "test": "bun test --preload=bun-coffeescript/register"
+  },
+  "dependencies": {
+    "brain": "link:brain",
+    "m-js": "link:m-js",
+    "agl-ai": "link:agl-ai",
+    "js-yaml": "^4.1.1",
+    "bun-coffeescript": "^1.0.3"
+  },
+  "keywords": ["tasks", "workunit", "brain", "knowledge-graph"],
+  "license": "MIT"
+}

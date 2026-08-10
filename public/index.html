@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--
+    This app ships its own dark theme, so tell the browser (native scrollbars,
+    form controls, canvas defaults) not to assume light.
+  -->
+  <meta name="color-scheme" content="dark" />
+  <!--
+    Opt OUT of the Dark Reader extension.
+
+    Dark Reader in "dynamic" mode was re-processing this already-dark page and
+    injecting its own palette over ours — it stamps data-darkreader-mode on
+    <html> and defines a parallel set of --darkreader-* custom properties in
+    :root. Its computed --darkreader-border--border is #7e7568, a light warm
+    grey, against our #2b2b27: that is exactly the "harsh / high-contrast"
+    borders that appeared on some loads but not others (dynamic mode races
+    page load, so whether it won varied per refresh).
+
+    This meta is Dark Reader's documented way for a site with a native dark
+    theme to say "leave me alone".
+  -->
+  <meta name="darkreader-lock" />
+  <title>Data Editor</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <!-- Phosphor Icons — bold weight is the app default (class: ph-bold ph-*) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+  <style>[x-cloak]{display:none!important}</style>
+</head>
+<body>
+  <div id="app"></div>
+  <!--
+    m.js HMR (m-js-docs “Adding HMR to a server you already have”):
+      <script type="module" data-hmr-entry src="/app.js"></script>
+      app.js: import hot-client, export boot, window.__M_BOOT__ = boot, await boot()
+    Exactly one boot on load. HMR calls __M_BOOT__(t) only on real file changes.
+  -->
+  <script type="module" data-hmr-entry src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+components:
+  Identity:
+    fields:
+      username:
+        type: string
+        required: true
+      givenName:
+        type: string
+        required: true
+      surname:
+        type: string
+        required: true
+      name:
+        type: string
+        required: true
+  Contact:
+    fields:
+      email:
+        type: string
+        required: true
+  Employment:
+    fields:
+      title:
+        type: string
+        required: true
+      department:
+        type: string
+      active:
+        type: bool
+        required: true
+      created:
+        type: date
+        required: true
+  Profile:
+    fields:
+      nickname:
+        type: string
+      external:
+        type: bool
+  Naming:
+    fields:
+      name:
+        type: string
+        required: true
+      description:
+        type: string
+  # Short codes / ticker-style labels — only on ops-facing named classes
+  # (not Franchise / Service / System / Person).
+  Alias:
+    fields:
+      shorthand:
+        type: string
+        list: true
+        required: true
+  ProductInfo:
+    fields:
+      lifecycle:
+        type: enum
+        required: true
+        values:
+          - incubation
+          - flagship
+          - forever
+        # Optional per-field guidance for humans + NL agents (surfaced by schema tools).
+        comment: >-
+          Product lifecycle stage. incubation = in development, not open to public;
+          flagship = open to public, very popular, active development, major revenue;
+          forever = less active development, still public.
+  GuardianProductInfo:
+    fields:
+      svcCorePattern:
+        type: string
+      locCorePattern:
+        type: string
+  SystemInfo:
+    fields:
+      name:
+        type: string
+        required: true
+      category:
+        type: string
+      description:
+        type: string
+  Documentation:
+    fields:
+      url:
+        type: string
+        list: true
+  GuardianInfo:
+    fields:
+      svcPattern:
+        type: string
+      locPattern:
+        type: string
+  RegionInfo:
+    fields:
+      region2:
+        type: string
+      region3:
+        type: string
+      location:
+        type: string
+      status:
+        type: string
+  EnvironmentInfo:
+    fields:
+      tier:
+        type: string
+      ordinal:
+        type: string
+  WorkUnit:
+    fields:
+      id:
+        type: string
+        required: true
+      important:
+        type: bool
+      urgent:
+        type: bool
+      weight:
+        type: int
+      tags:
+        type: string
+        list: true
+      stakeholders:
+        type: ref
+        list: true
+        allowedTypes:
+          - Person
+      status:
+        type: enum
+        values:
+          - idle
+          - running
+          - success
+          - fail
+      summary:
+        type: string
+        required: true
+      description:
+        type: string
+      worker:
+        type: string
+      due:
+        type: date
+      estimateOptimistic:
+        type: date
+      estimateLikely:
+        type: date
+      estimatePessimistic:
+        type: date
+      # Computed by tasks: unique entity slugs from {{Class/id}} wikilinks
+      # in summary + description (checklist lines included).
+      correlations:
+        type: string
+        list: true
+      journal:
+        type: string
+        list: true
+      createdAt:
+        type: date
+        required: true
+      updatedAt:
+        type: date
+        required: true
+classes:
+  Person:
+    components:
+      identity: Identity
+      contact: Contact
+      employment: Employment
+      profile: Profile
+    idField: identity.username
+    top: true
+  Team:
+    components:
+      naming: Naming
+      alias: Alias
+      documentation: Documentation
+    top: true
+  Product:
+    components:
+      naming: Naming
+      alias: Alias
+      info: ProductInfo
+      guardianProductInfo: GuardianProductInfo
+      documentation: Documentation
+    top: true
+  Franchise:
+    components:
+      naming: Naming
+    top: true
+  System:
+    components:
+      info: SystemInfo
+      documentation: Documentation
+    top: true
+  Service:
+    components:
+      naming: Naming
+      guardianInfo: GuardianInfo
+      documentation: Documentation
+    top: true
+  Cloud:
+    components:
+      naming: Naming
+      alias: Alias
+      documentation: Documentation
+  Region:
+    components:
+      naming: Naming
+      alias: Alias
+      regionInfo: RegionInfo
+  Environment:
+    components:
+      naming: Naming
+      alias: Alias
+      environmentInfo: EnvironmentInfo
+  WorkUnit:
+    components:
+      workunit: WorkUnit
+    displayField: workunit.summary
+    top: true
+relations:
+  REPORTS_TO:
+    domain: Person
+    range: Person
+    cardinality: oto
+  SUPPORTS:
+    domain: Team
+    range: Product
+    cardinality: mtm
+    qualifiers:
+      role:
+        type: string
+  OWNS:
+    domain: Franchise
+    range: Product
+    cardinality: mtm
+  SERVICE_PROVIDER_OF:
+    domain: Team
+    range: Team
+    cardinality: mtm
+  SERVES_FRANCHISE:
+    domain: Team
+    range: Franchise
+    cardinality: mtm
+  LEADER_OF:
+    domain: Person
+    range: Team
+    cardinality: mtm
+  TEMPORARY_ASSIGNMENT:
+    domain: Person
+    range: Team
+    cardinality: mtm
+  USES_SYSTEM:
+    domain: Team
+    range: System
+    cardinality: mtm
+  PARTNERSHIP_LIAISON:
+    domain: Person
+    range: Team
+    cardinality: mtm
+  HAS_SERVICE:
+    domain: Product
+    range: Service
+    cardinality: mtm
+  DEPLOYED_TO:
+    domain: Service
+    range: Cloud
+    cardinality: mtm
+    qualifiers:
+      environment:
+        type: string
+  DEPENDS_ON_SERVICE:
+    domain: Service
+    range: Service
+    cardinality: mtm
+    qualifiers:
+      reason:
+        type: string
+        required: true
+  HAS_CLOUD:
+    domain: Region
+    range: Cloud
+    cardinality: oto
+  DEPLOYED_IN:
+    domain: Product
+    range: Region
+    cardinality: mtm
+  DEPLOYED_IN_ENV:
+    domain: Product
+    range: Environment
+    cardinality: mtm
+  DEPENDS_ON:
+    domain: WorkUnit
+    range: WorkUnit
+    cardinality: mtm

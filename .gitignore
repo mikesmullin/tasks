@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# logs & local env
+*.log
+.env
+.env.*
+
+# brain / playground runtime (rebuildable)
+examples/playground/db/pgdata/
+examples/playground/db/.lock
+examples/playground/db/.sock
+examples/playground/db/.tasksweb.lock
+examples/playground/db/.viz.lock
+examples/playground/db/viz/
+
+# temporary files
+/tmp/
+
+# playground entity content is local (seed from schema + brain reindex); only schema tracked
+examples/playground/db/**/*.md
+examples/playground/db/**/*.markdown
+examples/playground/.angela/

@@ -1,0 +1,6 @@
+# Playground brain config — minimal. Override models for think/nl as needed.
+embed:
+  model: copilot:text-embedding-3-small
+think: {}
+search:
+  reranker: off

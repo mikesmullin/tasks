@@ -1,0 +1,12 @@
+# Runtime / rebuildable
+pgdata/
+.lock
+.sock
+.tasksweb.lock
+.viz.lock
+viz/
+
+# Entity class trees are local (brain seed/export). Only schema is versioned.
+*
+!schema.yaml
+!.gitignore
